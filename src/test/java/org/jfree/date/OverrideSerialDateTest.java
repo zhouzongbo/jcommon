@@ -58,6 +58,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 /**
+ * 重写{@link SerialDate} 单元测试, 提高单元测试覆盖率
  * Some JUnit tests for the {@link SerialDate} class.
  */
 public class OverrideSerialDateTest extends TestCase {
@@ -163,42 +164,42 @@ public class OverrideSerialDateTest extends TestCase {
     public void testWeekdayCodeToString() {
 
         final String test = SerialDate.weekdayCodeToString(SerialDate.SATURDAY);
-        assertEquals("Saturday", test);
+        assertEquals("星期六", test);
 
     }
 
     /**
      * Test the conversion of a string to a weekday.  Note that this test will fail if the 
      * default locale doesn't use English weekday names...devise a better test!
+     * 由于当前环境不是中文环境, 所以需要替换原有的测试用例.
      */
     public void testStringToWeekday() {
 
-        int weekday = SerialDate.stringToWeekdayCode("Wednesday");
+        int weekday = SerialDate.stringToWeekdayCode("周三");
         assertEquals(SerialDate.WEDNESDAY, weekday);
 
-        weekday = SerialDate.stringToWeekdayCode(" Wednesday ");
+        weekday = SerialDate.stringToWeekdayCode(" 周三 ");
         assertEquals(SerialDate.WEDNESDAY, weekday);
-
-        weekday = SerialDate.stringToWeekdayCode("Wed");
+        
+        weekday = SerialDate.stringToWeekdayCode("星期三");
         assertEquals(SerialDate.WEDNESDAY, weekday);
-
     }
 
     /**
      * Test the conversion of a string to a month.  Note that this test will fail if the default
      * locale doesn't use English month names...devise a better test!
+     * 由于不是英文环境, 所以测试会失败》
      */
     public void testStringToMonthCode() {
 
-        int m = SerialDate.stringToMonthCode("January");
+        int m = SerialDate.stringToMonthCode("一月");
         assertEquals(MonthConstants.JANUARY, m);
 
-        m = SerialDate.stringToMonthCode(" January ");
+        m = SerialDate.stringToMonthCode(" 一月 ");
         assertEquals(MonthConstants.JANUARY, m);
-
-        m = SerialDate.stringToMonthCode("Jan");
+        
+        m = SerialDate.stringToMonthCode("1月");
         assertEquals(MonthConstants.JANUARY, m);
-
     }
 
     /**
@@ -207,7 +208,7 @@ public class OverrideSerialDateTest extends TestCase {
     public void testMonthCodeToStringCode() {
 
         final String test = SerialDate.monthCodeToString(MonthConstants.DECEMBER);
-        assertEquals("December", test);
+        assertEquals("十二月", test);
 
     }
 

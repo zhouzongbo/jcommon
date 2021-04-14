@@ -83,7 +83,7 @@ import java.util.GregorianCalendar;
  *
  * @author David Gilbert
  */
-public abstract class SerialDate implements Comparable, 
+public abstract class SerialDate implements Comparable<SerialDate>,
                                             Serializable, 
                                             MonthConstants {
 

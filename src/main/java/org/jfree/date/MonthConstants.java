@@ -43,6 +43,8 @@
 package org.jfree.date;
 
 /**
+ * 用接口定义常量，然后子类实现后，可以直接调用常量
+ * // TODO 这里使用枚举类进行替换
  * Useful constants for months.  Note that these are NOT equivalent to the
  * constants defined by java.util.Calendar (where JANUARY=0 and DECEMBER=11).
  * <P>
