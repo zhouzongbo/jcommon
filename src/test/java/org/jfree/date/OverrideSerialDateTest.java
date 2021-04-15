@@ -212,11 +212,17 @@ public class OverrideSerialDateTest extends TestCase {
 
     }
 
+    public void testGetMonths() {
+        String[] months = SerialDate.getMonths();
+        assertEquals(13, months.length);
+    }
+    
     /**
      * 1900 is not a leap year.
      */
     public void testIsNotLeapYear1900() {
-        assertTrue(!SerialDate.isLeapYear(1900));
+        System.out.println("4");
+        assertFalse(SerialDate.isLeapYear(1900));
     }
 
     /**

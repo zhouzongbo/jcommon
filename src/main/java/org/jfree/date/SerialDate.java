@@ -83,7 +83,7 @@ import java.util.GregorianCalendar;
  *
  * @author David Gilbert
  */
-public abstract class SerialDate implements Comparable<SerialDate>,
+public abstract class SerialDate implements Comparable,
                                             Serializable, 
                                             MonthConstants {
 
@@ -498,20 +498,10 @@ public abstract class SerialDate implements Comparable<SerialDate>,
      * @return <code>true</code> if the specified year is a leap year.
      */
     public static boolean isLeapYear(final int yyyy) {
-
-        if ((yyyy % 4) != 0) {
-            return false;
-        }
-        else if ((yyyy % 400) == 0) {
-            return true;
-        }
-        else if ((yyyy % 100) == 0) {
-            return false;
-        }
-        else {
-            return true;
-        }
-
+        boolean fourDivide = yyyy % 4 == 0;
+        boolean fourHundredDivide = yyyy % 400 == 0;
+        boolean hundredDivide = yyyy % 100 == 0;
+        return fourDivide && (!hundredDivide || fourHundredDivide);
     }
 
     /**
