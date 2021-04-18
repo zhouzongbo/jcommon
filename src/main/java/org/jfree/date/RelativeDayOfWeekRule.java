@@ -43,6 +43,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayOfWeek;
 
 /**
@@ -176,8 +177,8 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
     public DayDate getDate(final int year) {
 
         // check argument...
-        if ((year < DayDate.MINIMUM_YEAR_SUPPORTED)
-            || (year > DayDate.MAXIMUM_YEAR_SUPPORTED)) {
+        if ((year < DayDateFactory.getMinYear())
+            || (year > DayDateFactory.getMaxYear())) {
             throw new IllegalArgumentException(
                 "RelativeDayOfWeekRule.getDate(): year outside valid range.");
         }

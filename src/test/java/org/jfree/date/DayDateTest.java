@@ -58,6 +58,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
+import org.jfree.date.override.WeekInMonth;
 
 /**
  * Some JUnit tests for the {@link DayDate} class.
@@ -362,14 +363,6 @@ public class DayDateTest extends TestCase {
         assertEquals(2004, d4.getYYYY());
     }
 
-    public void testIsValidWeekInMonthCode() {
-        assertTrue(DayDate.isValidWeekInMonthCode(1));
-        assertTrue(DayDate.isValidWeekInMonthCode(2));
-        assertTrue(DayDate.isValidWeekInMonthCode(3));
-        assertTrue(DayDate.isValidWeekInMonthCode(4));
-        assertFalse(DayDate.isValidWeekInMonthCode(5));
-    }
-
     public void testGetEndOfCurrentMonth() {
         DayDate endOfCurrentMonth = nov9Y2001.getEndOfCurrentMonth(nov9Y2001);
         assertEquals(30, endOfCurrentMonth.getDayOfMonth());
@@ -380,11 +373,11 @@ public class DayDateTest extends TestCase {
     }
 
     public void testWeekInMonthToString() {
-        assertEquals("First", DayDate.weekInMonthToString(DayDate.FIRST_WEEK_IN_MONTH));
-        assertEquals("Second", DayDate.weekInMonthToString(DayDate.SECOND_WEEK_IN_MONTH));
-        assertEquals("Third", DayDate.weekInMonthToString(DayDate.THIRD_WEEK_IN_MONTH));
-        assertEquals("Fourth", DayDate.weekInMonthToString(DayDate.FOURTH_WEEK_IN_MONTH));
-        assertEquals("Last", DayDate.weekInMonthToString(DayDate.LAST_WEEK_IN_MONTH));
+        assertEquals("First", DayDate.weekInMonthToString(WeekInMonth.FIRST));
+        assertEquals("Second", DayDate.weekInMonthToString(WeekInMonth.SECOND));
+        assertEquals("Third", DayDate.weekInMonthToString(WeekInMonth.THIRD));
+        assertEquals("Fourth", DayDate.weekInMonthToString(WeekInMonth.FOURTH));
+        assertEquals("Last", DayDate.weekInMonthToString(WeekInMonth.LAST));
     }
 
     public void testRelativeToString() {

@@ -85,6 +85,12 @@ public class SpreadsheetDate extends DayDate {
     /** For serialization. */
     private static final long serialVersionUID = -2039586705374454461L;
     
+    /** The lowest year value supported by this date format. */
+    public static final int MINIMUM_YEAR_SUPPORTED = 1900;
+    
+    /** The highest year value supported by this date format. */
+    public static final int MAXIMUM_YEAR_SUPPORTED = 9999;
+    
     /** 
      * The day number (1-Jan-1900 = 2, 2-Jan-1900 = 3, ..., 31-Dec-9999 = 
      * 2958465). 

@@ -46,6 +46,7 @@ package org.jfree.date;
 
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
+import org.jfree.date.override.WeekInMonth;
 
 /**
  * An annual date rule that specifies the nth day of the week in a given month
@@ -147,7 +148,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      */
     public DayDate getDate(final int year) {
         DayDate result;
-        if (this.count != DayDate.LAST_WEEK_IN_MONTH) {
+        if (this.count != WeekInMonth.LAST.toInt()) {
             // start at the beginning of the month
             result = DayDate.createInstance(1, this.month, year);
             while (result.getDayOfWeek() != this.dayOfWeek) {
