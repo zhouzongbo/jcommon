@@ -52,6 +52,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -398,5 +399,13 @@ public class DayDateTest extends TestCase {
 
         DayDate dayDate = DayDate.createInstance(18, Month.APRIL, 2021);
         assertEquals("18-四月-2021", dayDate.toString());
+    }
+    
+    public void testCreateInstanceDate() {
+        Date now = new Date(121, 4, 18);
+        DayDate dayDate = DayDate.createInstance(now);
+        assertEquals(2021, dayDate.getYYYY());
+        assertEquals(Month.APRIL, dayDate.getMonth());
+        assertEquals(18, dayDate.getDayOfMonth());
     }
 }

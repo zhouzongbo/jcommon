@@ -539,7 +539,7 @@ public abstract class DayDate implements Comparable, Serializable {
         final GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         return new SpreadsheetDate(calendar.get(Calendar.DATE),
-                                   Month.make(calendar.get(Calendar.MONTH) + 1),
+                                   Month.make(calendar.get(Calendar.MONTH)),
                                    calendar.get(Calendar.YEAR));
 
     }
