@@ -58,10 +58,9 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 /**
- * 重写{@link SerialDate} 单元测试, 提高单元测试覆盖率
  * Some JUnit tests for the {@link SerialDate} class.
  */
-public class OverrideSerialDateTest extends TestCase {
+public class SerialDateTestCopy extends TestCase {
 
     /** Date representing November 9. */
     private SerialDate nov9Y2001;
@@ -71,7 +70,7 @@ public class OverrideSerialDateTest extends TestCase {
      *
      * @param name  the name.
      */
-    public OverrideSerialDateTest(final String name) {
+    public SerialDateTestCopy(final String name) {
         super(name);
     }
 
@@ -81,7 +80,7 @@ public class OverrideSerialDateTest extends TestCase {
      * @return The test suite.
      */
     public static Test suite() {
-        return new TestSuite(OverrideSerialDateTest.class);
+        return new TestSuite(SerialDateTestCopy.class);
     }
 
     /**
@@ -164,42 +163,42 @@ public class OverrideSerialDateTest extends TestCase {
     public void testWeekdayCodeToString() {
 
         final String test = SerialDate.weekdayCodeToString(SerialDate.SATURDAY);
-        assertEquals("星期六", test);
+        assertEquals("Saturday", test);
 
     }
 
     /**
      * Test the conversion of a string to a weekday.  Note that this test will fail if the 
      * default locale doesn't use English weekday names...devise a better test!
-     * 由于当前环境不是中文环境, 所以需要替换原有的测试用例.
      */
     public void testStringToWeekday() {
 
-        int weekday = SerialDate.stringToWeekdayCode("周三");
+        int weekday = SerialDate.stringToWeekdayCode("Wednesday");
         assertEquals(SerialDate.WEDNESDAY, weekday);
 
-        weekday = SerialDate.stringToWeekdayCode(" 周三 ");
+        weekday = SerialDate.stringToWeekdayCode(" Wednesday ");
         assertEquals(SerialDate.WEDNESDAY, weekday);
-        
-        weekday = SerialDate.stringToWeekdayCode("星期三");
+
+        weekday = SerialDate.stringToWeekdayCode("Wed");
         assertEquals(SerialDate.WEDNESDAY, weekday);
+
     }
 
     /**
      * Test the conversion of a string to a month.  Note that this test will fail if the default
      * locale doesn't use English month names...devise a better test!
-     * 由于不是英文环境, 所以测试会失败》
      */
     public void testStringToMonthCode() {
 
-        int m = SerialDate.stringToMonthCode("一月");
+        int m = SerialDate.stringToMonthCode("January");
         assertEquals(MonthConstants.JANUARY, m);
 
-        m = SerialDate.stringToMonthCode(" 一月 ");
+        m = SerialDate.stringToMonthCode(" January ");
         assertEquals(MonthConstants.JANUARY, m);
-        
-        m = SerialDate.stringToMonthCode("1月");
+
+        m = SerialDate.stringToMonthCode("Jan");
         assertEquals(MonthConstants.JANUARY, m);
+
     }
 
     /**
@@ -212,16 +211,10 @@ public class OverrideSerialDateTest extends TestCase {
 
     }
 
-    public void testGetMonths() {
-        String[] months = SerialDate.getMonths();
-        assertEquals(13, months.length);
-    }
-    
     /**
      * 1900 is not a leap year.
      */
     public void testIsNotLeapYear1900() {
-        System.out.println("4");
         assertFalse(SerialDate.isLeapYear(1900));
     }
 
@@ -322,5 +315,27 @@ public class OverrideSerialDateTest extends TestCase {
         assertEquals(30, d4.getDayOfMonth());
         assertEquals(7, d4.getMonth());
         assertEquals(2004, d4.getYYYY());
+    }
+    
+    public void testMonthCodeToQuarter() {
+        // 一季度
+        assertEquals(1, SerialDate.monthCodeToQuarter(1));
+        assertEquals(1, SerialDate.monthCodeToQuarter(2));
+        assertEquals(1, SerialDate.monthCodeToQuarter(3));
+        
+        // 二季度
+        assertEquals(2, SerialDate.monthCodeToQuarter(4));
+        assertEquals(2, SerialDate.monthCodeToQuarter(5));
+        assertEquals(2, SerialDate.monthCodeToQuarter(6));
+        
+        // 三季度
+        assertEquals(3, SerialDate.monthCodeToQuarter(7));
+        assertEquals(3, SerialDate.monthCodeToQuarter(8));
+        assertEquals(3, SerialDate.monthCodeToQuarter(9));
+        
+        // 四季度
+        assertEquals(4, SerialDate.monthCodeToQuarter(10));
+        assertEquals(4, SerialDate.monthCodeToQuarter(11));
+        assertEquals(4, SerialDate.monthCodeToQuarter(12));
     }
 }
