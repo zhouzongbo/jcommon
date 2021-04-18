@@ -58,6 +58,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DayDateRange;
 import org.jfree.date.override.Month;
 import org.jfree.date.override.RelativeDayOfWeek;
 import org.jfree.date.override.WeekInMonth;
@@ -753,8 +754,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return A boolean.
      */
-    public abstract boolean isInRange(DayDate d1, DayDate d2,
-                                      int include);
+    public abstract boolean isInRange(DayDate d1, DayDate d2, DayDateRange include);
 
     /**
      * Returns the latest date that falls on the specified day-of-the-week and

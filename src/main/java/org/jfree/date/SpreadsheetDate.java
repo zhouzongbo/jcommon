@@ -55,6 +55,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DayDateRange;
 import org.jfree.date.override.Month;
 
 import java.util.Calendar;
@@ -405,7 +406,7 @@ public class SpreadsheetDate extends DayDate {
      * @return A boolean.
      */
     public boolean isInRange(final DayDate d1, final DayDate d2) {
-        return isInRange(d1, d2, DayDate.INCLUDE_BOTH);
+        return isInRange(d1, d2, DayDateRange.INCLUDE_BOTH);
     }
 
     /**
@@ -422,20 +423,20 @@ public class SpreadsheetDate extends DayDate {
      *         range.
      */
     public boolean isInRange(final DayDate d1, final DayDate d2,
-                             final int include) {
+                             final DayDateRange include) {
         final int s1 = d1.toSerial();
         final int s2 = d2.toSerial();
         final int start = Math.min(s1, s2);
         final int end = Math.max(s1, s2);
         
         final int s = toSerial();
-        if (include == DayDate.INCLUDE_BOTH) {
+        if (include == DayDateRange.INCLUDE_BOTH) {
             return (s >= start && s <= end);
         }
-        else if (include == DayDate.INCLUDE_FIRST) {
+        else if (include == DayDateRange.INCLUDE_FIRST) {
             return (s >= start && s < end);            
         }
-        else if (include == DayDate.INCLUDE_SECOND) {
+        else if (include == DayDateRange.INCLUDE_SECOND) {
             return (s > start && s <= end);            
         }
         else {
