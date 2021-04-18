@@ -148,7 +148,7 @@ public class SpreadsheetDate extends SerialDate {
      */
     public SpreadsheetDate(final int serial) {
 
-        if ((serial >= SERIAL_LOWER_BOUND) && (serial <= SERIAL_UPPER_BOUND)) {
+        if ((serial >= Month.SERIAL_LOWER_BOUND) && (serial <= Month.SERIAL_UPPER_BOUND)) {
             this.serial = serial;
         }
         else {
@@ -158,7 +158,7 @@ public class SpreadsheetDate extends SerialDate {
 
         // the day-month-year needs to be synchronised with the serial number...
       // get the year from the serial date
-      final int days = this.serial - SERIAL_LOWER_BOUND;
+      final int days = this.serial - Month.SERIAL_LOWER_BOUND;
       // overestimated because we ignored leap days
       final int overestimatedYYYY = 1900 + (days / 365);
       final int leaps = SerialDate.leapYearCount(overestimatedYYYY);

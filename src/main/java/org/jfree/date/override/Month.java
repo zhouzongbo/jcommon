@@ -16,6 +16,12 @@ public enum Month {
     ;
     private final int index;
     
+    /** The serial number for 1 January 1900. */
+    public static final int SERIAL_LOWER_BOUND = 2;
+    
+    /** The serial number for 31 December 9999. */
+    public static final int SERIAL_UPPER_BOUND = 2958465;
+    
     Month(int index) {
         this.index = index;
     }
