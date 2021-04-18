@@ -187,11 +187,11 @@ public class SpreadsheetDate extends DayDate {
       final int ss2 = calcSerial(1, Month.JANUARY, this.year);
 
       int[] daysToEndOfPrecedingMonth 
-          = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
+          = Month.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
 
       if (isLeapYear(this.year)) {
           daysToEndOfPrecedingMonth 
-              = LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
+              = Month.LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
       }
 
       // get the month from the serial date
@@ -456,7 +456,7 @@ public class SpreadsheetDate extends DayDate {
      */
     private int calcSerial(final int d, final Month m, final int y) {
         final int yy = ((y - 1900) * 365) + DayDate.leapYearCount(y - 1);
-        int mm = DayDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m.toInt()];
+        int mm = Month.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m.toInt()];
         if (m.toInt() > Month.FEBRUARY.toInt()) {
             if (DayDate.isLeapYear(y)) {
                 mm = mm + 1;

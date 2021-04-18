@@ -58,6 +58,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
+import org.jfree.date.override.RelativeDayOfWeek;
 import org.jfree.date.override.WeekInMonth;
 
 /**
@@ -381,9 +382,9 @@ public class DayDateTest extends TestCase {
     }
 
     public void testRelativeToString() {
-        assertEquals("Preceding", DayDate.relativeToString(DayDate.PRECEDING));
-        assertEquals("Nearest", DayDate.relativeToString(DayDate.NEAREST));
-        assertEquals("Following", DayDate.relativeToString(DayDate.FOLLOWING));
+        assertEquals("Preceding", DayDate.relativeToString(RelativeDayOfWeek.PRECEDING));
+        assertEquals("Nearest", DayDate.relativeToString(RelativeDayOfWeek.NEAREST));
+        assertEquals("Following", DayDate.relativeToString(RelativeDayOfWeek.FOLLOWING));
     }
 
     public void testGetDescription() {

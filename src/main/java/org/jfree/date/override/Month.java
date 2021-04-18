@@ -22,6 +22,28 @@ public enum Month {
     /** The serial number for 31 December 9999. */
     public static final int SERIAL_UPPER_BOUND = 2958465;
     
+    public static final int[] LAST_DAY_OF_MONTH =
+            {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    
+    /** The number of days in a (non-leap) year up to the end of each month. */
+    public static final int[] AGGREGATE_DAYS_TO_END_OF_MONTH =
+            {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+    
+    /** The number of days in a year up to the end of the preceding month. */
+    public static final int[] AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH =
+            {0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+    
+    /** The number of days in a leap year up to the end of each month. */
+    public static final int[] LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_MONTH =
+            {0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
+    
+    /**
+     * The number of days in a leap year up to the end of the preceding month.
+     */
+    public static final int[]
+            LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH =
+            {0, 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
+    
     Month(int index) {
         this.index = index;
     }

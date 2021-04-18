@@ -45,6 +45,11 @@ package org.jfree.date;
 
 import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayOfWeek;
+import org.jfree.date.override.RelativeDayOfWeek;
+
+import static org.jfree.date.override.RelativeDayOfWeek.FOLLOWING;
+import static org.jfree.date.override.RelativeDayOfWeek.NEAREST;
+import static org.jfree.date.override.RelativeDayOfWeek.PRECEDING;
 
 /**
  * An annual date rule that returns a date for each year based on (a) a
@@ -67,13 +72,13 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
     private int dayOfWeek;
 
     /** Specifies which day of the week (PRECEDING, NEAREST or FOLLOWING). */
-    private int relative;
+    private RelativeDayOfWeek relative;
 
     /**
      * Default constructor - builds a rule for the Monday following 1 January.
      */
     public RelativeDayOfWeekRule() {
-        this(new DayAndMonthRule(), DayOfWeek.MONDAY.toInt(), DayDate.FOLLOWING);
+        this(new DayAndMonthRule(), DayOfWeek.MONDAY.toInt(), RelativeDayOfWeek.FOLLOWING);
     }
 
     /**
@@ -85,7 +90,7 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      *                  or following).
      */
     public RelativeDayOfWeekRule(final AnnualDateRule subrule, 
-            final int dayOfWeek, final int relative) {
+            final int dayOfWeek, final RelativeDayOfWeek relative) {
         this.subrule = subrule;
         this.dayOfWeek = dayOfWeek;
         this.relative = relative;
@@ -137,7 +142,7 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      *
      * @return The 'relative' attribute.
      */
-    public int getRelative() {
+    public RelativeDayOfWeek getRelative() {
         return this.relative;
     }
 
@@ -148,7 +153,7 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      * @param relative  determines *which* day-of-the-week is selected by this 
      *                  rule.
      */
-    public void setRelative(final int relative) {
+    public void setRelative(final RelativeDayOfWeek relative) {
         this.relative = relative;
     }
 
@@ -189,15 +194,15 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
 
         if (base != null) {
             switch (this.relative) {
-                case(DayDate.PRECEDING):
+                case PRECEDING:
                     result = DayDate.getPreviousDayOfWeek(this.dayOfWeek,
                             base);
                     break;
-                case(DayDate.NEAREST):
+                case NEAREST:
                     result = DayDate.getNearestDayOfWeek(this.dayOfWeek,
                             base);
                     break;
-                case(DayDate.FOLLOWING):
+                case FOLLOWING:
                     result = DayDate.getFollowingDayOfWeek(this.dayOfWeek,
                             base);
                     break;

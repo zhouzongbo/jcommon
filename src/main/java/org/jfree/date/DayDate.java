@@ -59,6 +59,7 @@
 package org.jfree.date;
 
 import org.jfree.date.override.Month;
+import org.jfree.date.override.RelativeDayOfWeek;
 import org.jfree.date.override.WeekInMonth;
 
 import java.io.Serializable;
@@ -87,33 +88,10 @@ import static org.jfree.date.override.Month.*;
  *
  * @author David Gilbert
  */
-public abstract class DayDate implements Comparable,
-                                            Serializable {
+public abstract class DayDate implements Comparable, Serializable {
 
     /** For serialization. */
     private static final long serialVersionUID = -293716040467423637L;
-    
-    static final int[] LAST_DAY_OF_MONTH =
-        {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-    /** The number of days in a (non-leap) year up to the end of each month. */
-    static final int[] AGGREGATE_DAYS_TO_END_OF_MONTH =
-        {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
-
-    /** The number of days in a year up to the end of the preceding month. */
-    static final int[] AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH =
-        {0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
-
-    /** The number of days in a leap year up to the end of each month. */
-    static final int[] LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_MONTH =
-        {0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
-
-    /** 
-     * The number of days in a leap year up to the end of the preceding month. 
-     */
-    static final int[] 
-        LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH =
-            {0, 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
 
     /** Useful range constant. */
     public static final int INCLUDE_NONE = 0;
@@ -126,25 +104,7 @@ public abstract class DayDate implements Comparable,
 
     /** Useful range constant. */
     public static final int INCLUDE_BOTH = 3;
-
-    /** 
-     * Useful constant for specifying a day of the week relative to a fixed 
-     * date. 
-     */
-    public static final int PRECEDING = -1;
-
-    /** 
-     * Useful constant for specifying a day of the week relative to a fixed 
-     * date. 
-     */
-    public static final int NEAREST = 0;
-
-    /** 
-     * Useful constant for specifying a day of the week relative to a fixed 
-     * date. 
-     */
-    public static final int FOLLOWING = 1;
-
+    
     /** A description for the date. */
     private String description;
 
@@ -363,7 +323,7 @@ public abstract class DayDate implements Comparable,
      */
     public static int lastDayOfMonth(final Month month, final int yyyy) {
 
-        final int result = LAST_DAY_OF_MONTH[month.toInt()];
+        final int result = Month.LAST_DAY_OF_MONTH[month.toInt()];
         if (month != FEBRUARY) {
             return result;
         }
@@ -539,7 +499,7 @@ public abstract class DayDate implements Comparable,
      * <P>
      * Need to find a better approach.
      *
-     * @param count  an integer code representing the week-in-the-month.
+     * @param weekInMonth  weekInMonth.
      *
      * @return a string corresponding to the week-in-the-month code.
      */
@@ -566,15 +526,19 @@ public abstract class DayDate implements Comparable,
      *
      * @return a string representing the supplied 'relative'.
      */
-    public static String relativeToString(final int relative) {
-
+    public static String relativeToString(final RelativeDayOfWeek relative) {
+    
         switch (relative) {
-            case DayDate.PRECEDING : return "Preceding";
-            case DayDate.NEAREST : return "Nearest";
-            case DayDate.FOLLOWING : return "Following";
-            default : return "ERROR : Relative To String";
+            case PRECEDING:
+                return "Preceding";
+            case NEAREST:
+                return "Nearest";
+            case FOLLOWING:
+                return "Following";
+            default:
+                return "ERROR : Relative To String";
         }
-
+    
     }
 
     /**
