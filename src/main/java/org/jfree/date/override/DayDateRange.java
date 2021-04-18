@@ -1,18 +1,43 @@
 package org.jfree.date.override;
 
-public enum  DayDateRange {
-    INCLUDE_NONE(0),
-    INCLUDE_FIRST(1),
-    INCLUDE_SECOND(2),
-    INCLUDE_BOTH(3),
+public enum DayDateRange {
+    /**
+     * time > targetTime and time < targetTime
+     */
+    OPEN {
+        @Override
+        public boolean isIn(int day, int left, int right) {
+            return day > left && day < right;
+        }
+    },
+    /**
+     * time >= targetTime and time < targetTime
+     */
+    CLOSED_LEFT {
+        @Override
+        public boolean isIn(int day, int left, int right) {
+            return day >= left && day < right;
+        }
+    },
+    /**
+     * time > targetTime and time <= targetTime
+     */
+    CLOSED_RIGHT {
+        @Override
+        public boolean isIn(int day, int left, int right) {
+            return day > left && day <= right;
+        }
+    },
+    /**
+     * time >= targetTime and time <= targetTime
+     */
+    CLOSED {
+        @Override
+        public boolean isIn(int day, int left, int right) {
+            return day >= left && day <= right;
+        }
+    },
     ;
-    private final int index;
     
-    DayDateRange(int index) {
-        this.index = index;
-    }
-    
-    public int toInt() {
-        return index;
-    }
+    public abstract boolean isIn(int day, int left, int right);
 }

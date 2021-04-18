@@ -406,7 +406,7 @@ public class SpreadsheetDate extends DayDate {
      * @return A boolean.
      */
     public boolean isInRange(final DayDate d1, final DayDate d2) {
-        return isInRange(d1, d2, DayDateRange.INCLUDE_BOTH);
+        return isInRange(d1, d2, DayDateRange.CLOSED);
     }
 
     /**
@@ -429,19 +429,7 @@ public class SpreadsheetDate extends DayDate {
         final int start = Math.min(s1, s2);
         final int end = Math.max(s1, s2);
         
-        final int s = toSerial();
-        if (include == DayDateRange.INCLUDE_BOTH) {
-            return (s >= start && s <= end);
-        }
-        else if (include == DayDateRange.INCLUDE_FIRST) {
-            return (s >= start && s < end);            
-        }
-        else if (include == DayDateRange.INCLUDE_SECOND) {
-            return (s > start && s <= end);            
-        }
-        else {
-            return (s > start && s < end);            
-        }    
+        return include.isIn(toSerial(), start, end);
     }
 
     /**
