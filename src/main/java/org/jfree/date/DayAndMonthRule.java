@@ -45,6 +45,8 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.Month;
+
 /**
  * An annual date rule where the generated date always falls on the same day
  * and month each year.
@@ -60,13 +62,13 @@ public class DayAndMonthRule extends AnnualDateRule {
     private int dayOfMonth;
 
     /** The month (uses 1 to 12 in the obvious way). */
-    private int month;
+    private Month month;
 
     /**
      * Default constructor: builds a DayAndMonthRule for 1 January.
      */
     public DayAndMonthRule() {
-        this(1, MonthConstants.JANUARY);
+        this(1, Month.JANUARY);
     }
 
     /**
@@ -80,7 +82,7 @@ public class DayAndMonthRule extends AnnualDateRule {
      * @param dayOfMonth  the day of the month (in the range 1 to 31).
      * @param month  the month (use SerialDate.JANUARY, SerialDate.FEBRUARY etc.);
      */
-    public DayAndMonthRule(final int dayOfMonth, final int month) {
+    public DayAndMonthRule(final int dayOfMonth, final Month month) {
 
         // check arguments delegated to setter methods...
         setMonth(month);
@@ -105,7 +107,7 @@ public class DayAndMonthRule extends AnnualDateRule {
     public void setDayOfMonth(final int dayOfMonth) {
 
         // check arguments...
-        if ((dayOfMonth < 1) || (dayOfMonth > SerialDate.LAST_DAY_OF_MONTH[this.month])) {
+        if ((dayOfMonth < 1) || (dayOfMonth > SerialDate.LAST_DAY_OF_MONTH[this.month.toInt()])) {
             throw new IllegalArgumentException(
                 "DayAndMonthRule(): dayOfMonth outside valid range.");
         }
@@ -124,7 +126,7 @@ public class DayAndMonthRule extends AnnualDateRule {
      *
      * @return an integer code representing the month.
      */
-    public int getMonth() {
+    public Month getMonth() {
         return this.month;
     }
 
@@ -133,13 +135,7 @@ public class DayAndMonthRule extends AnnualDateRule {
      *
      * @param month  the month for this rule.
      */
-    public void setMonth(final int month) {
-
-        // check arguments...
-        if (!SerialDate.isValidMonthCode(month)) {
-            throw new IllegalArgumentException("DayAndMonthRule(): month code not valid.");
-        }
-
+    public void setMonth(final Month month) {
         // make the change...
         this.month = month;
 

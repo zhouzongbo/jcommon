@@ -58,11 +58,15 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.Month;
+
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import static org.jfree.date.override.Month.*;
 
 /**
  *  An abstract class that defines our requirements for manipulating dates,
@@ -84,8 +88,7 @@ import java.util.GregorianCalendar;
  * @author David Gilbert
  */
 public abstract class SerialDate implements Comparable,
-                                            Serializable, 
-                                            MonthConstants {
+                                            Serializable {
 
     /** For serialization. */
     private static final long serialVersionUID = -293716040467423637L;
@@ -316,64 +319,6 @@ public abstract class SerialDate implements Comparable,
     }
 
     /**
-     * Returns true if the supplied integer code represents a valid month.
-     *
-     * @param code  the code being checked for validity.
-     *
-     * @return <code>true</code> if the supplied integer code represents a 
-     *         valid month.
-     */
-    public static boolean isValidMonthCode(final int code) {
-
-        switch(code) {
-            case JANUARY: 
-            case FEBRUARY: 
-            case MARCH: 
-            case APRIL: 
-            case MAY: 
-            case JUNE: 
-            case JULY: 
-            case AUGUST: 
-            case SEPTEMBER: 
-            case OCTOBER: 
-            case NOVEMBER: 
-            case DECEMBER: 
-                return true;
-            default: 
-                return false;
-        }
-
-    }
-
-    /**
-     * Returns the quarter for the specified month.
-     *
-     * @param code  the month code (1-12).
-     *
-     * @return the quarter that the month belongs to.
-     */
-    public static int monthCodeToQuarter(final int code) {
-
-        switch(code) {
-            case JANUARY: 
-            case FEBRUARY: 
-            case MARCH: return 1;
-            case APRIL: 
-            case MAY: 
-            case JUNE: return 2;
-            case JULY: 
-            case AUGUST: 
-            case SEPTEMBER: return 3;
-            case OCTOBER: 
-            case NOVEMBER: 
-            case DECEMBER: return 4;
-            default: throw new IllegalArgumentException(
-                "SerialDate.monthCodeToQuarter: invalid month code.");
-        }
-
-    }
-
-    /**
      * Returns a string representing the supplied month.
      * <P>
      * The string returned is the long form of the month name taken from the 
@@ -383,7 +328,7 @@ public abstract class SerialDate implements Comparable,
      *
      * @return a string representing the supplied month.
      */
-    public static String monthCodeToString(final int month) {
+    public static String monthCodeToString(final Month month) {
 
         return monthCodeToString(month, false);
 
@@ -401,15 +346,8 @@ public abstract class SerialDate implements Comparable,
      *
      * @return a string representing the supplied month.
      */
-    public static String monthCodeToString(final int month, 
+    public static String monthCodeToString(final Month month,
                                            final boolean shortened) {
-
-        // check arguments...
-        if (!isValidMonthCode(month)) {
-            throw new IllegalArgumentException(
-                "SerialDate.monthCodeToString: month outside valid range.");
-        }
-
         final String[] months;
 
         if (shortened) {
@@ -419,7 +357,7 @@ public abstract class SerialDate implements Comparable,
             months = DATE_FORMAT_SYMBOLS.getMonths();
         }
 
-        return months[month - 1];
+        return months[month.toInt() - 1];
 
     }
 
@@ -532,9 +470,9 @@ public abstract class SerialDate implements Comparable,
      *
      * @return the number of the last day of the month.
      */
-    public static int lastDayOfMonth(final int month, final int yyyy) {
+    public static int lastDayOfMonth(final Month month, final int yyyy) {
 
-        final int result = LAST_DAY_OF_MONTH[month];
+        final int result = LAST_DAY_OF_MONTH[month.toInt()];
         if (month != FEBRUARY) {
             return result;
         }
@@ -575,17 +513,17 @@ public abstract class SerialDate implements Comparable,
      *
      * @return a new date.
      */
-    public static SerialDate addMonths(final int months, 
+    public static SerialDate addMonths(final Month months,
                                        final SerialDate base) {
 
-        final int yy = (12 * base.getYYYY() + base.getMonth() + months - 1) 
+        final int yy = (12 * base.getYYYY() + base.getMonth().toInt() + months.toInt() - 1)
                        / 12;
-        final int mm = (12 * base.getYYYY() + base.getMonth() + months - 1) 
+        final int mm = (12 * base.getYYYY() + base.getMonth().toInt() + months.toInt() - 1)
                        % 12 + 1;
         final int dd = Math.min(
-            base.getDayOfMonth(), SerialDate.lastDayOfMonth(mm, yy)
+            base.getDayOfMonth(), SerialDate.lastDayOfMonth(Month.make(mm), yy)
         );
-        return SerialDate.createInstance(dd, mm, yy);
+        return SerialDate.createInstance(dd, Month.make(mm), yy);
 
     }
 
@@ -601,7 +539,7 @@ public abstract class SerialDate implements Comparable,
     public static SerialDate addYears(final int years, final SerialDate base) {
 
         final int baseY = base.getYYYY();
-        final int baseM = base.getMonth();
+        final Month baseM = base.getMonth();
         final int baseD = base.getDayOfMonth();
 
         final int targetY = baseY + years;
@@ -780,7 +718,7 @@ public abstract class SerialDate implements Comparable,
      *
      * @return An instance of {@link SerialDate}.
      */
-    public static SerialDate createInstance(final int day, final int month, 
+    public static SerialDate createInstance(final int day, final Month month,
                                             final int yyyy) {
         return new SpreadsheetDate(day, month, yyyy);
     }
@@ -809,7 +747,7 @@ public abstract class SerialDate implements Comparable,
         final GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         return new SpreadsheetDate(calendar.get(Calendar.DATE),
-                                   calendar.get(Calendar.MONTH) + 1,
+                                   Month.make(calendar.get(Calendar.MONTH) + 1),
                                    calendar.get(Calendar.YEAR));
 
     }
@@ -874,7 +812,7 @@ public abstract class SerialDate implements Comparable,
      *
      * @return the month of the year.
      */
-    public abstract int getMonth();
+    public abstract Month getMonth();
 
     /**
      * Returns the day of the month.

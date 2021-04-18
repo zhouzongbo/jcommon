@@ -44,6 +44,8 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.Month;
+
 /**
  * An annual date rule that specifies the nth day of the week in a given month
  * (for example, the third Wednesday in June, or the last Friday in November).
@@ -59,13 +61,13 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
     private int dayOfWeek;
 
     /** The month (1 to 12, or SerialDate.JANUARY, SerialDate.FEBRUARY...). */
-    private int month;
+    private Month month;
 
     /**
      * Default constructor: builds a rule for the first Monday in January by default.
      */
     public DayOfWeekInMonthRule() {
-        this(1, SerialDate.MONDAY, MonthConstants.JANUARY);
+        this(1, SerialDate.MONDAY, Month.JANUARY);
     }
 
     /**
@@ -75,7 +77,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      * @param dayOfWeek  the day-of-the-week (SerialDate.MONDAY, SerialDate.TUESDAY, etc.).
      * @param month  the month (SerialDate.JANUARY, SerialDate.FEBRUARY, etc.).
      */
-    public DayOfWeekInMonthRule(final int count, final int dayOfWeek, final int month) {
+    public DayOfWeekInMonthRule(final int count, final int dayOfWeek, final Month month) {
         this.count = count;
         this.dayOfWeek = dayOfWeek;
         this.month = month;
@@ -122,7 +124,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      *
      * @return the month.
      */
-    public int getMonth() {
+    public Month getMonth() {
         return this.month;
     }
 
@@ -131,7 +133,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      *
      * @param month  the month (SerialDate.JANUARY, SerialDate.FEBRUARY, etc.).
      */
-    public void setMonth(final int month) {
+    public void setMonth(final Month month) {
         this.month = month;
     }
 

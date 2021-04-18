@@ -44,6 +44,8 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.Month;
+
 /**
  * An annual date rule for Easter (Sunday).  The algorithm used here was
  * obtained from a Calendar FAQ which can be found at:
@@ -83,7 +85,7 @@ public class EasterSundayRule extends AnnualDateRule {
         final int l = i - j;
         final int month = 3 + (l + 40) / 44;
         final int day = l + 28 - 31 * (month / 4);
-        return SerialDate.createInstance(day, month, year);
+        return SerialDate.createInstance(day, Month.make(month), year);
     }
 
 }
