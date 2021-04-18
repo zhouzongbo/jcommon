@@ -93,18 +93,6 @@ public abstract class DayDate implements Comparable, Serializable {
 
     /** For serialization. */
     private static final long serialVersionUID = -293716040467423637L;
-
-    /** Useful range constant. */
-    public static final int INCLUDE_NONE = 0;
-
-    /** Useful range constant. */
-    public static final int INCLUDE_FIRST = 1;
-
-    /** Useful range constant. */
-    public static final int INCLUDE_SECOND = 2;
-
-    /** Useful range constant. */
-    public static final int INCLUDE_BOTH = 3;
     
     /** A description for the date. */
     private String description;
@@ -115,36 +103,6 @@ public abstract class DayDate implements Comparable, Serializable {
     protected DayDate() {
     }
     
-    /**
-     * Converts the supplied string to a day of the week.
-     *
-     * @param s  a string representing the day of the week.
-     *
-     * @return <code>-1</code> if the string is not convertable, the day of 
-     *         the week otherwise.
-     */
-    public static int stringToWeekdayCode(String s) {
-
-        final String[] shortWeekdayNames 
-            = DATE_FORMAT_SYMBOLS.getShortWeekdays();
-        final String[] weekDayNames = DATE_FORMAT_SYMBOLS.getWeekdays();
-
-        int result = -1;
-        s = s.trim();
-        for (int i = 0; i < weekDayNames.length; i++) {
-            if (s.equals(shortWeekdayNames[i])) {
-                result = i;
-                break;
-            }
-            if (s.equals(weekDayNames[i])) {
-                result = i;
-                break;
-            }
-        }
-        return result;
-
-    }
-
     /**
      * Returns a string representing the supplied day-of-the-week.
      * <P>

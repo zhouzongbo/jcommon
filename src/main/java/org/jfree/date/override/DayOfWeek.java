@@ -25,4 +25,19 @@ public enum DayOfWeek {
     public int toInt() {
         return index;
     }
+    
+    public static DayOfWeek parse(String s) {
+        final String[] shortWeekdayNames
+                = DATE_FORMAT_SYMBOLS.getShortWeekdays();
+        final String[] weekDayNames = DATE_FORMAT_SYMBOLS.getWeekdays();
+        
+        s = s.trim();
+        for (DayOfWeek day : values()) {
+            if (s.equalsIgnoreCase(shortWeekdayNames[day.index])
+                || s.equalsIgnoreCase(weekDayNames[day.index])) {
+                return day;
+            }
+        }
+        throw new IllegalArgumentException(String.format("%s is not a valid weekday string.", s));
+    }
 }

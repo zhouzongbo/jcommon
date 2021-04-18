@@ -196,14 +196,14 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToWeekday() {
 
-        int weekday = DayDate.stringToWeekdayCode("周三");
-        assertEquals(DayOfWeek.WEDNESDAY.toInt(), weekday);
-
-        weekday = DayDate.stringToWeekdayCode(" 周三 ");
-        assertEquals(DayOfWeek.WEDNESDAY.toInt(), weekday);
-
-        weekday = DayDate.stringToWeekdayCode("星期三");
-        assertEquals(DayOfWeek.WEDNESDAY.toInt(), weekday);
+        DayOfWeek weekday = DayOfWeek.parse("周三");
+        assertEquals(DayOfWeek.WEDNESDAY.toInt(), weekday.toInt());
+    
+        DayOfWeek weekday1 = DayOfWeek.parse(" 周三 ");
+        assertEquals(DayOfWeek.WEDNESDAY.toInt(), weekday1.toInt());
+    
+        DayOfWeek weekday2 = DayOfWeek.parse("星期三");
+        assertEquals(DayOfWeek.WEDNESDAY.toInt(), weekday2.toInt());
     }
 
     /**
