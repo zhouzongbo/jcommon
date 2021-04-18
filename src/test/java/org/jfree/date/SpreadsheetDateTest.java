@@ -54,6 +54,7 @@ import java.io.ObjectOutputStream;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 
 /**
@@ -99,7 +100,7 @@ public class SpreadsheetDateTest extends TestCase {
      */
     public void test1Jan1900GetDayOfWeek() {
         final int dayOfWeek = this.jan1Y1900.getDayOfWeek();
-        assertEquals(SerialDate.MONDAY, dayOfWeek);
+        assertEquals(DayOfWeek.MONDAY.toInt(), dayOfWeek);
     }
 
     /**
@@ -109,7 +110,7 @@ public class SpreadsheetDateTest extends TestCase {
         SerialDate nov12Y2001 = new SpreadsheetDate(12, 
                 Month.NOVEMBER, 2001);
         int dayOfWeek = nov12Y2001.getDayOfWeek();
-        assertEquals(SerialDate.MONDAY, dayOfWeek);
+        assertEquals(DayOfWeek.MONDAY.toInt(), dayOfWeek);
     }
 
     /**

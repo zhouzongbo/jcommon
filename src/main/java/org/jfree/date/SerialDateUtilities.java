@@ -46,6 +46,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 
 import java.text.DateFormatSymbols;
@@ -115,25 +116,25 @@ public class SerialDateUtilities {
     public int stringToWeekday(final String s) {
 
         if (s.equals(this.weekdays[Calendar.SATURDAY])) {
-            return SerialDate.SATURDAY;
+            return DayOfWeek.SATURDAY.toInt();
         }
         else if (s.equals(this.weekdays[Calendar.SUNDAY])) {
-            return SerialDate.SUNDAY;
+            return DayOfWeek.SUNDAY.toInt();
         }
         else if (s.equals(this.weekdays[Calendar.MONDAY])) {
-            return SerialDate.MONDAY;
+            return DayOfWeek.MONDAY.toInt();
         }
         else if (s.equals(this.weekdays[Calendar.TUESDAY])) {
-            return SerialDate.TUESDAY;
+            return DayOfWeek.TUESDAY.toInt();
         }
         else if (s.equals(this.weekdays[Calendar.WEDNESDAY])) {
-            return SerialDate.WEDNESDAY;
+            return DayOfWeek.WEDNESDAY.toInt();
         }
         else if (s.equals(this.weekdays[Calendar.THURSDAY])) {
-            return SerialDate.THURSDAY;
+            return DayOfWeek.THURSDAY.toInt();
         }
         else {
-            return SerialDate.FRIDAY;
+            return DayOfWeek.FRIDAY.toInt();
         }
 
     }

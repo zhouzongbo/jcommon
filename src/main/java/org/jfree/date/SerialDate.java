@@ -108,38 +108,7 @@ public abstract class SerialDate implements Comparable,
 
     /** The highest year value supported by this date format. */
     public static final int MAXIMUM_YEAR_SUPPORTED = 9999;
-
-    /** Useful constant for Monday. Equivalent to java.util.Calendar.MONDAY. */
-    public static final int MONDAY = Calendar.MONDAY;
-
-    /** 
-     * Useful constant for Tuesday. Equivalent to java.util.Calendar.TUESDAY. 
-     */
-    public static final int TUESDAY = Calendar.TUESDAY;
-
-    /** 
-     * Useful constant for Wednesday. Equivalent to 
-     * java.util.Calendar.WEDNESDAY. 
-     */
-    public static final int WEDNESDAY = Calendar.WEDNESDAY;
-
-    /** 
-     * Useful constant for Thrusday. Equivalent to java.util.Calendar.THURSDAY. 
-     */
-    public static final int THURSDAY = Calendar.THURSDAY;
-
-    /** Useful constant for Friday. Equivalent to java.util.Calendar.FRIDAY. */
-    public static final int FRIDAY = Calendar.FRIDAY;
-
-    /** 
-     * Useful constant for Saturday. Equivalent to java.util.Calendar.SATURDAY.
-     */
-    public static final int SATURDAY = Calendar.SATURDAY;
-
-    /** Useful constant for Sunday. Equivalent to java.util.Calendar.SUNDAY. */
-    public static final int SUNDAY = Calendar.SUNDAY;
-
-    /** The number of days in each month in non leap years. */
+    
     static final int[] LAST_DAY_OF_MONTH =
         {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -215,33 +184,7 @@ public abstract class SerialDate implements Comparable,
      */
     protected SerialDate() {
     }
-
-    /**
-     * Returns <code>true</code> if the supplied integer code represents a 
-     * valid day-of-the-week, and <code>false</code> otherwise.
-     *
-     * @param code  the code being checked for validity.
-     *
-     * @return <code>true</code> if the supplied integer code represents a 
-     *         valid day-of-the-week, and <code>false</code> otherwise.
-     */
-    public static boolean isValidWeekdayCode(final int code) {
-
-        switch(code) {
-            case SUNDAY: 
-            case MONDAY: 
-            case TUESDAY: 
-            case WEDNESDAY: 
-            case THURSDAY: 
-            case FRIDAY: 
-            case SATURDAY: 
-                return true;
-            default: 
-                return false;
-        }
-
-    }
-
+    
     /**
      * Converts the supplied string to a day of the week.
      *
@@ -563,14 +506,6 @@ public abstract class SerialDate implements Comparable,
      */
     public static SerialDate getPreviousDayOfWeek(final int targetWeekday, 
                                                   final SerialDate base) {
-
-        // check arguments...
-        if (!SerialDate.isValidWeekdayCode(targetWeekday)) {
-            throw new IllegalArgumentException(
-                "Invalid day-of-the-week code."
-            );
-        }
-
         // find the date...
         final int adjust;
         final int baseDOW = base.getDayOfWeek();
@@ -598,13 +533,6 @@ public abstract class SerialDate implements Comparable,
     public static SerialDate getFollowingDayOfWeek(final int targetWeekday, 
                                                    final SerialDate base) {
 
-        // check arguments...
-        if (!SerialDate.isValidWeekdayCode(targetWeekday)) {
-            throw new IllegalArgumentException(
-                "Invalid day-of-the-week code."
-            );
-        }
-
         // find the date...
         final int adjust;
         final int baseDOW = base.getDayOfWeek();
@@ -630,14 +558,7 @@ public abstract class SerialDate implements Comparable,
      */
     public static SerialDate getNearestDayOfWeek(final int targetDOW,  
                                                  final SerialDate base) {
-
-        // check arguments...
-        if (!SerialDate.isValidWeekdayCode(targetDOW)) {
-            throw new IllegalArgumentException(
-                "Invalid day-of-the-week code."
-            );
-        }
-
+        
         // find the date...
         final int baseDOW = base.getDayOfWeek();
         int adjust = -Math.abs(targetDOW - baseDOW);

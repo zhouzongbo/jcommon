@@ -44,6 +44,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 
 /**
@@ -67,7 +68,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      * Default constructor: builds a rule for the first Monday in January by default.
      */
     public DayOfWeekInMonthRule() {
-        this(1, SerialDate.MONDAY, Month.JANUARY);
+        this(1, DayOfWeek.MONDAY.toInt(), Month.JANUARY);
     }
 
     /**
