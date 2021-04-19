@@ -238,11 +238,12 @@ public class DayDateTest extends TestCase {
 
     public void testGetMonths() {
         String[] months = DayDate.getMonths();
-        assertEquals(13, months.length);
-
         String[] months1 = DayDate.getMonths(false);
-        assertEquals(months1[0], months[0]);
-
+        assertEquals(13, months.length);
+        for (int i = 0; i < months.length; i++) {
+            assertEquals(months1[i], months[i]);
+        }
+        
         String[] months2 = DayDate.getMonths(true);
         assertEquals("1月", months2[0]);
         assertEquals("2月", months2[1]);
