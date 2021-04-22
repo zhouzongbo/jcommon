@@ -1,5 +1,7 @@
 package org.jfree.date.override;
 
+import java.text.DateFormatSymbols;
+
 public enum Month {
     JANUARY(1),
     FEBRUARY(2),
@@ -43,6 +45,7 @@ public enum Month {
     public static final int[]
             LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH =
             {0, 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
+    private static final DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
     
     Month(int index) {
         this.index = index;
@@ -57,7 +60,48 @@ public enum Month {
         throw new IllegalArgumentException("Invalid month index : " + monthIndex);
     }
     
+    public static Month parse(String s) {
+        s = s.trim();
+        for (Month month : values()) {
+            if (month.matches(s)) {
+                return month;
+            }
+        }
+        
+        try {
+            return make(Integer.parseInt(s));
+        } catch (NumberFormatException ex) {
+        
+        }
+        throw new IllegalArgumentException("Invalid month " + s);
+    }
+    
     public int toInt() {
         return index;
+    }
+    
+    /**
+     * 这里重写toString, 使用dateFormatSymbols中的日期来代替 JARNUARY
+     * 转换为一月、二月、三月、四月
+     */
+    @Override
+    public String toString() {
+        return dateFormatSymbols.getMonths()[toInt() -1];
+    }
+    
+    /**
+     * 1月、2月、3月、4月
+     */
+    public String toShortString() {
+        return dateFormatSymbols.getShortMonths()[toInt() - 1];
+    }
+    
+    public int lastDay() {
+        return LAST_DAY_OF_MONTH[toInt()];
+    }
+    
+    private boolean matches(String s) {
+        return s.equalsIgnoreCase(toString())
+                || s.equalsIgnoreCase(toShortString());
     }
 }

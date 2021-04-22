@@ -62,6 +62,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.jfree.date.DayDate;
+import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 
 /**
@@ -364,7 +365,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
      */
     private JPanel constructSelectionPanel() {
         final JPanel p = new JPanel();
-        this.monthSelector = new JComboBox(DayDate.getMonths());
+        this.monthSelector = new JComboBox(DayOfWeek.getMonths());
         this.monthSelector.addActionListener(this);
         this.monthSelector.setActionCommand("monthSelectionChanged");
         p.add(this.monthSelector);

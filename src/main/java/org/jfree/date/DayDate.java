@@ -58,6 +58,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DateUtil;
 import org.jfree.date.override.DayDateRange;
 import org.jfree.date.override.Month;
 import org.jfree.date.override.RelativeDayOfWeek;
@@ -104,175 +105,7 @@ public abstract class DayDate implements Comparable, Serializable {
     }
     
     /**
-     * Returns a string representing the supplied day-of-the-week.
-     * <P>
-     * Need to find a better approach.
-     *
-     * @param weekday  the day of the week.
-     *
-     * @return a string representing the supplied day-of-the-week.
-     */
-    public static String weekdayCodeToString(final int weekday) {
-
-        final String[] weekdays = DATE_FORMAT_SYMBOLS.getWeekdays();
-        return weekdays[weekday];
-
-    }
-
-    /**
-     * Returns an array of month names.
-     *
-     * @return an array of month names.
-     */
-    public static String[] getMonths() {
-
-        return getMonths(false);
-
-    }
-
-    /**
-     * Returns an array of month names.
-     *
-     * @param shortened  a flag indicating that shortened month names should 
-     *                   be returned.
-     *
-     * @return an array of month names.
-     */
-    public static String[] getMonths(final boolean shortened) {
-
-        if (shortened) {
-            return DATE_FORMAT_SYMBOLS.getShortMonths();
-        }
-        else {
-            return DATE_FORMAT_SYMBOLS.getMonths();
-        }
-
-    }
-
-    /**
-     * Returns a string representing the supplied month.
-     * <P>
-     * The string returned is the long form of the month name taken from the 
-     * default locale.
-     *
-     * @param month  the month.
-     *
-     * @return a string representing the supplied month.
-     */
-    public static String monthCodeToString(final Month month) {
-
-        return monthCodeToString(month, false);
-
-    }
-
-    /**
-     * Returns a string representing the supplied month.
-     * <P>
-     * The string returned is the long or short form of the month name taken 
-     * from the default locale.
-     *
-     * @param month  the month.
-     * @param shortened  if <code>true</code> return the abbreviation of the 
-     *                   month.
-     *
-     * @return a string representing the supplied month.
-     */
-    public static String monthCodeToString(final Month month,
-                                           final boolean shortened) {
-        final String[] months;
-
-        if (shortened) {
-            months = DATE_FORMAT_SYMBOLS.getShortMonths();
-        }
-        else {
-            months = DATE_FORMAT_SYMBOLS.getMonths();
-        }
-
-        return months[month.toInt() - 1];
-
-    }
-
-    /**
-     * Converts a string to a month code.
-     * <P>
-     * This method will return one of the constants JANUARY, FEBRUARY, ..., 
-     * DECEMBER that corresponds to the string.  If the string is not 
-     * recognised, this method returns -1.
-     *
-     * @param s  the string to parse.
-     *
-     * @return <code>-1</code> if the string is not parseable, the month of the
-     *         year otherwise.
-     */
-    public static int stringToMonthCode(String s) {
-
-        final String[] shortMonthNames = DATE_FORMAT_SYMBOLS.getShortMonths();
-        final String[] monthNames = DATE_FORMAT_SYMBOLS.getMonths();
-
-        int result = -1;
-        s = s.trim();
-
-        // first try parsing the string as an integer (1-12)...
-        try {
-            result = Integer.parseInt(s);
-        }
-        catch (NumberFormatException e) {
-            // suppress
-        }
-
-        // now search through the month names...
-        if ((result < 1) || (result > 12)) {
-            for (int i = 0; i < monthNames.length; i++) {
-                if (s.equals(shortMonthNames[i])) {
-                    result = i + 1;
-                    break;
-                }
-                if (s.equals(monthNames[i])) {
-                    result = i + 1;
-                    break;
-                }
-            }
-        }
-
-        return result;
-
-    }
-
-    /**
-     * Determines whether or not the specified year is a leap year.
-     *
-     * @param yyyy  the year (in the range 1900 to 9999).
-     *
-     * @return <code>true</code> if the specified year is a leap year.
-     */
-    public static boolean isLeapYear(final int yyyy) {
-        boolean fourDivide = yyyy % 4 == 0;
-        boolean fourHundredDivide = yyyy % 400 == 0;
-        boolean hundredDivide = yyyy % 100 == 0;
-        return fourDivide && (!hundredDivide || fourHundredDivide);
-    }
-
-    /**
-     * Returns the number of leap years from 1900 to the specified year 
-     * INCLUSIVE.
-     * <P>
-     * Note that 1900 is not a leap year.
-     *
-     * @param yyyy  the year (in the range 1900 to 9999).
-     *
-     * @return the number of leap years from 1900 to the specified year.
-     */
-    public static int leapYearCount(final int yyyy) {
-
-        final int leap4 = (yyyy - 1896) / 4;
-        final int leap100 = (yyyy - 1800) / 100;
-        final int leap400 = (yyyy - 1600) / 400;
-        return leap4 - leap100 + leap400;
-
-    }
-
-    /**
-     * Returns the number of the last day of the month, taking into account 
+     * Returns the number of the last day of the month, taking into account
      * leap years.
      *
      * @param month  the month.
@@ -281,18 +114,11 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return the number of the last day of the month.
      */
     public static int lastDayOfMonth(final Month month, final int yyyy) {
-
-        final int result = Month.LAST_DAY_OF_MONTH[month.toInt()];
-        if (month != FEBRUARY) {
-            return result;
+        if (FEBRUARY.equals(month) || DateUtil.isLeapYear(yyyy)) {
+            return month.lastDay() + 1;
+        } else {
+            return month.lastDay();
         }
-        else if (isLeapYear(yyyy)) {
-            return result + 1;
-        }
-        else {
-            return result;
-        }
-
     }
 
     /**
@@ -588,8 +414,7 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return  a string representation of the date.
      */
     public String toString() {
-        return getDayOfMonth() + "-" + DayDate.monthCodeToString(getMonth())
-                               + "-" + getYYYY();
+        return getDayOfMonth() + "-" + getMonth().toString() + "-" + getYYYY();
     }
 
     /**

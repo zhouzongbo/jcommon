@@ -57,6 +57,7 @@ import java.util.Date;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jfree.date.override.DateUtil;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 import org.jfree.date.override.RelativeDayOfWeek;
@@ -185,7 +186,7 @@ public class DayDateTest extends TestCase {
      */
     public void testWeekdayCodeToString() {
 
-        final String test = DayDate.weekdayCodeToString(DayOfWeek.SATURDAY.toInt());
+        final String test = DayOfWeek.weekdayCodeToString(DayOfWeek.SATURDAY.toInt());
         assertEquals("星期六", test);
 
     }
@@ -214,14 +215,17 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToMonthCode() {
 
-        int m = DayDate.stringToMonthCode("一月");
-        assertEquals(Month.JANUARY.toInt(), m);
+        Month m = Month.parse("一月");
+        assertEquals(Month.JANUARY, m);
 
-        m = DayDate.stringToMonthCode(" 一月 ");
-        assertEquals(Month.JANUARY.toInt(), m);
+        m = Month.parse(" 一月 ");
+        assertEquals(Month.JANUARY, m);
 
-        m = DayDate.stringToMonthCode("1月");
-        assertEquals(Month.JANUARY.toInt(), m);
+        m = Month.parse("1月");
+        assertEquals(Month.JANUARY, m);
+        
+        m = Month.parse("1");
+        assertEquals(Month.JANUARY, m);
     }
 
     /**
@@ -229,22 +233,22 @@ public class DayDateTest extends TestCase {
      */
     public void testMonthCodeToStringCode() {
 
-        final String test = DayDate.monthCodeToString(Month.DECEMBER);
+        final String test = Month.DECEMBER.toString();
         assertEquals("十二月", test);
 
-        String shortMonthName = DayDate.monthCodeToString(Month.DECEMBER, true);
+        String shortMonthName = Month.DECEMBER.toShortString();
         assertEquals("12月", shortMonthName);
     }
 
     public void testGetMonths() {
-        String[] months = DayDate.getMonths();
-        String[] months1 = DayDate.getMonths(false);
+        String[] months = DayOfWeek.getMonths();
+        String[] months1 = DayOfWeek.getMonths();
         assertEquals(13, months.length);
         for (int i = 0; i < months.length; i++) {
             assertEquals(months1[i], months[i]);
         }
         
-        String[] months2 = DayDate.getMonths(true);
+        String[] months2 = DayOfWeek.getShortMonths();
         assertEquals("1月", months2[0]);
         assertEquals("2月", months2[1]);
         assertEquals("3月", months2[2]);
@@ -264,49 +268,49 @@ public class DayDateTest extends TestCase {
      */
     public void testIsNotLeapYear1900() {
         System.out.println("4");
-        assertFalse(DayDate.isLeapYear(1900));
+        assertFalse(DateUtil.isLeapYear(1900));
     }
 
     /**
      * 2000 is a leap year.
      */
     public void testIsLeapYear2000() {
-        assertTrue(DayDate.isLeapYear(2000));
+        assertTrue(DateUtil.isLeapYear(2000));
     }
 
     /**
      * The number of leap years from 1900 up-to-and-including 1899 is 0.
      */
     public void testLeapYearCount1899() {
-        assertEquals(DayDate.leapYearCount(1899), 0);
+        assertEquals(DateUtil.leapYearCount(1899), 0);
     }
 
     /**
      * The number of leap years from 1900 up-to-and-including 1903 is 0.
      */
     public void testLeapYearCount1903() {
-        assertEquals(DayDate.leapYearCount(1903), 0);
+        assertEquals(DateUtil.leapYearCount(1903), 0);
     }
 
     /**
      * The number of leap years from 1900 up-to-and-including 1904 is 1.
      */
     public void testLeapYearCount1904() {
-        assertEquals(DayDate.leapYearCount(1904), 1);
+        assertEquals(DateUtil.leapYearCount(1904), 1);
     }
 
     /**
      * The number of leap years from 1900 up-to-and-including 1999 is 24.
      */
     public void testLeapYearCount1999() {
-        assertEquals(DayDate.leapYearCount(1999), 24);
+        assertEquals(DateUtil.leapYearCount(1999), 24);
     }
 
     /**
      * The number of leap years from 1900 up-to-and-including 2000 is 25.
      */
     public void testLeapYearCount2000() {
-        assertEquals(DayDate.leapYearCount(2000), 25);
+        assertEquals(DateUtil.leapYearCount(2000), 25);
     }
 
     /**
@@ -408,5 +412,11 @@ public class DayDateTest extends TestCase {
         assertEquals(2021, dayDate.getYYYY());
         assertEquals(Month.APRIL, dayDate.getMonth());
         assertEquals(18, dayDate.getDayOfMonth());
+    }
+    
+    public void testLastDayOfMonth() {
+        // int result = Month.JANUARY.lastDay(2020);
+        // assertEquals(result, DayDate.lastDayOfMonth(Month.JANUARY, 2020));
+        // System.out.println(result);
     }
 }

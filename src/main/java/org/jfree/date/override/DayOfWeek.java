@@ -40,4 +40,28 @@ public enum DayOfWeek {
         }
         throw new IllegalArgumentException(String.format("%s is not a valid weekday string.", s));
     }
+    
+    
+    /**
+     * Returns a string representing the supplied day-of-the-week.
+     * <P>
+     * Need to find a better approach.
+     *
+     * @param weekday  the day of the week.
+     *
+     * @return a string representing the supplied day-of-the-week.
+     */
+    public static String weekdayCodeToString(final int weekday) {
+        
+        final String[] weekdays = DATE_FORMAT_SYMBOLS.getWeekdays();
+        return weekdays[weekday];
+    }
+    
+    public static String[] getMonths() {
+        return DATE_FORMAT_SYMBOLS.getMonths();
+    }
+    
+    public static String[] getShortMonths() {
+        return DATE_FORMAT_SYMBOLS.getShortMonths();
+    }
 }
