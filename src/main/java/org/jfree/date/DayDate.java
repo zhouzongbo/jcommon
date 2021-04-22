@@ -114,7 +114,7 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return the number of the last day of the month.
      */
     public static int lastDayOfMonth(final Month month, final int yyyy) {
-        if (FEBRUARY.equals(month) || DateUtil.isLeapYear(yyyy)) {
+        if (FEBRUARY.equals(month) && DateUtil.isLeapYear(yyyy)) {
             return month.lastDay() + 1;
         } else {
             return month.lastDay();
