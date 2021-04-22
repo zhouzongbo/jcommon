@@ -47,6 +47,7 @@ package org.jfree.date;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jfree.process.ProcessDictionaryUtilTest;
 
 /**
  * A test suite for the <code>org.jfree.date</code> package.
@@ -63,6 +64,7 @@ public class DatePackageTests extends TestCase {
         suite.addTestSuite(DayDateTest.class);
         suite.addTestSuite(DayDateUtilitiesTest.class);
         suite.addTestSuite(SpreadsheetDateTest.class);
+        suite.addTestSuite(ProcessDictionaryUtilTest.class);
         return suite;
     }
 
