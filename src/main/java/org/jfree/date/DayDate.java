@@ -59,16 +59,12 @@
 package org.jfree.date;
 
 import org.jfree.date.override.DateUtil;
+import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayDateRange;
 import org.jfree.date.override.Month;
-import org.jfree.date.override.RelativeDayOfWeek;
-import org.jfree.date.override.WeekInMonth;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import static org.jfree.date.override.DayOfWeek.DATE_FORMAT_SYMBOLS;
 import static org.jfree.date.override.Month.*;
 
 /**
@@ -103,23 +99,6 @@ public abstract class DayDate implements Comparable, Serializable {
      */
     protected DayDate() {
     }
-    
-    /**
-     * Returns the number of the last day of the month, taking into account
-     * leap years.
-     *
-     * @param month  the month.
-     * @param yyyy  the year (in the range 1900 to 9999).
-     *
-     * @return the number of the last day of the month.
-     */
-    public static int lastDayOfMonth(final Month month, final int yyyy) {
-        if (FEBRUARY.equals(month) && DateUtil.isLeapYear(yyyy)) {
-            return month.lastDay() + 1;
-        } else {
-            return month.lastDay();
-        }
-    }
 
     /**
      * Creates a new date by adding the specified number of days to the base 
@@ -132,8 +111,8 @@ public abstract class DayDate implements Comparable, Serializable {
      */
     public static DayDate addDays(final int days, final DayDate base) {
 
-        final int serialDayNumber = base.toSerial() + days;
-        return DayDate.createInstance(serialDayNumber);
+        final int serialDayNumber = base.ordinal() + days;
+        return DayDateFactory.makeDate(serialDayNumber);
 
     }
 
@@ -157,9 +136,9 @@ public abstract class DayDate implements Comparable, Serializable {
         final int mm = (12 * base.getYYYY() + base.getMonth().toInt() + months.toInt() - 1)
                        % 12 + 1;
         final int dd = Math.min(
-            base.getDayOfMonth(), DayDate.lastDayOfMonth(Month.make(mm), yy)
+            base.getDayOfMonth(), DateUtil.lastDayOfMonth(Month.make(mm), yy)
         );
-        return DayDate.createInstance(dd, Month.make(mm), yy);
+        return DayDateFactory.makeDate(dd, Month.make(mm), yy);
 
     }
 
@@ -180,10 +159,10 @@ public abstract class DayDate implements Comparable, Serializable {
 
         final int targetY = baseY + years;
         final int targetD = Math.min(
-            baseD, DayDate.lastDayOfMonth(baseM, targetY)
+            baseD, DateUtil.lastDayOfMonth(baseM, targetY)
         );
 
-        return DayDate.createInstance(targetD, baseM, targetY);
+        return DayDateFactory.makeDate(targetD, baseM, targetY);
 
     }
 
@@ -273,103 +252,12 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return a new serial date.
      */
     public DayDate getEndOfCurrentMonth(final DayDate base) {
-        final int last = DayDate.lastDayOfMonth(
+        final int last = DateUtil.lastDayOfMonth(
             base.getMonth(), base.getYYYY()
         );
-        return DayDate.createInstance(last, base.getMonth(), base.getYYYY());
+        return DayDateFactory.makeDate(last, base.getMonth(), base.getYYYY());
     }
-
-    /**
-     * Returns a string corresponding to the week-in-the-month code.
-     * <P>
-     * Need to find a better approach.
-     *
-     * @param weekInMonth  weekInMonth.
-     *
-     * @return a string corresponding to the week-in-the-month code.
-     */
-    public static String weekInMonthToString(final WeekInMonth weekInMonth) {
-
-        switch (weekInMonth) {
-            case FIRST: return "First";
-            case SECOND: return "Second";
-            case THIRD: return "Third";
-            case FOURTH: return "Fourth";
-            case LAST: return "Last";
-            default :
-                return "SerialDate.weekInMonthToString(): invalid code.";
-        }
-
-    }
-
-    /**
-     * Returns a string representing the supplied 'relative'.
-     * <P>
-     * Need to find a better approach.
-     *
-     * @param relative  a constant representing the 'relative'.
-     *
-     * @return a string representing the supplied 'relative'.
-     */
-    public static String relativeToString(final RelativeDayOfWeek relative) {
     
-        switch (relative) {
-            case PRECEDING:
-                return "Preceding";
-            case NEAREST:
-                return "Nearest";
-            case FOLLOWING:
-                return "Following";
-            default:
-                return "ERROR : Relative To String";
-        }
-    
-    }
-
-    /**
-     * Factory method that returns an instance of some concrete subclass of 
-     * {@link DayDate}.
-     *
-     * @param day  the day (1-31).
-     * @param month  the month (1-12).
-     * @param yyyy  the year (in the range 1900 to 9999).
-     *
-     * @return An instance of {@link DayDate}.
-     */
-    public static DayDate createInstance(final int day, final Month month,
-                                            final int yyyy) {
-        return new SpreadsheetDate(day, month, yyyy);
-    }
-
-    /**
-     * Factory method that returns an instance of some concrete subclass of 
-     * {@link DayDate}.
-     *
-     * @param serial  the serial number for the day (1 January 1900 = 2).
-     *
-     * @return a instance of SerialDate.
-     */
-    public static DayDate createInstance(final int serial) {
-        return new SpreadsheetDate(serial);
-    }
-
-    /**
-     * Factory method that returns an instance of a subclass of SerialDate.
-     *
-     * @param date  A Java date object.
-     *
-     * @return a instance of SerialDate.
-     */
-    public static DayDate createInstance(final java.util.Date date) {
-
-        final GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        return new SpreadsheetDate(calendar.get(Calendar.DATE),
-                                   Month.make(calendar.get(Calendar.MONTH)),
-                                   calendar.get(Calendar.YEAR));
-
-    }
-
     /**
      * Returns the serial number for the date, where 1 January 1900 = 2 (this
      * corresponds, almost, to the numbering system used in Microsoft Excel for
@@ -377,15 +265,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return the serial number for the date.
      */
-    public abstract int toSerial();
-
-    /**
-     * Returns a java.util.Date.  Since java.util.Date has more precision than
-     * SerialDate, we need to define a convention for the 'time of day'.
-     *
-     * @return this as <code>java.util.Date</code>.
-     */
-    public abstract java.util.Date toDate();
+    public abstract int ordinal();
 
     /**
      * Returns the description that is attached to the date.  It is not 
@@ -501,30 +381,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *         as the specified SerialDate.
      */
     public abstract boolean isAfter(DayDate other);
-
-    /**
-     * Returns true if this SerialDate represents the same date as the 
-     * specified SerialDate.
-     *
-     * @param other  the date being compared to.
-     *
-     * @return <code>true</code> if this SerialDate represents the same date
-     *         as the specified SerialDate.
-     */
-    public abstract boolean isOnOrAfter(DayDate other);
-
-    /**
-     * Returns <code>true</code> if this {@link DayDate} is within the
-     * specified range (INCLUSIVE).  The date order of d1 and d2 is not 
-     * important.
-     *
-     * @param d1  a boundary date for the range.
-     * @param d2  the other boundary date for the range.
-     *
-     * @return A boolean.
-     */
-    public abstract boolean isInRange(DayDate d1, DayDate d2);
-
+    
     /**
      * Returns <code>true</code> if this {@link DayDate} is within the
      * specified range (caller specifies whether or not the end-points are 

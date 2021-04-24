@@ -58,6 +58,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jfree.date.override.DateUtil;
+import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 import org.jfree.date.override.RelativeDayOfWeek;
@@ -93,7 +94,7 @@ public class DayDateTest extends TestCase {
      * Problem set up.
      */
     protected void setUp() {
-        this.nov9Y2001 = DayDate.createInstance(9, Month.NOVEMBER, 2001);
+        this.nov9Y2001 = DayDateFactory.makeDate(9, Month.NOVEMBER, 2001);
     }
 
     /**
@@ -101,7 +102,7 @@ public class DayDateTest extends TestCase {
      */
     public void testAddMonthsTo9Nov2001() {
         final DayDate jan9Y2002 = DayDate.addMonths(Month.FEBRUARY, this.nov9Y2001);
-        final DayDate answer = DayDate.createInstance(9, Month.JANUARY, 2002);
+        final DayDate answer = DayDateFactory.makeDate(9, Month.JANUARY, 2002);
         assertEquals(answer, jan9Y2002);
     }
 
@@ -109,9 +110,9 @@ public class DayDateTest extends TestCase {
      * A test case for a reported bug, now fixed.
      */
     public void testAddMonthsTo5Oct2003() {
-        final DayDate d1 = DayDate.createInstance(5, Month.OCTOBER, 2003);
+        final DayDate d1 = DayDateFactory.makeDate(5, Month.OCTOBER, 2003);
         final DayDate d2 = DayDate.addMonths(Month.FEBRUARY, d1);
-        assertEquals(d2, DayDate.createInstance(5, Month.DECEMBER, 2003));
+        assertEquals(d2, DayDateFactory.makeDate(5, Month.DECEMBER, 2003));
     }
 
     /**
@@ -148,7 +149,7 @@ public class DayDateTest extends TestCase {
         );
         assertEquals(12, mondayAfter.getDayOfMonth());
 
-        DayDate instance = DayDate.createInstance(18, Month.APRIL, 2021);
+        DayDate instance = DayDateFactory.makeDate(18, Month.APRIL, 2021);
         DayDate followingDayOfWeek = instance.getFollowingDayOfWeek(DayOfWeek.MONDAY.toInt());
         assertEquals(19, followingDayOfWeek.getDayOfMonth());
 
@@ -170,12 +171,12 @@ public class DayDateTest extends TestCase {
      * The Monday nearest to 22nd January 1970 falls on the 19th.
      */
     public void testMondayNearest22Jan1970() {
-        DayDate jan22Y1970 = DayDate.createInstance(22, Month.JANUARY, 1970);
+        DayDate jan22Y1970 = DayDateFactory.makeDate(22, Month.JANUARY, 1970);
         DayDate mondayNearest = DayDate.getNearestDayOfWeek(DayOfWeek.MONDAY.toInt(), jan22Y1970);
         assertEquals(19, mondayNearest.getDayOfMonth());
 
 
-        DayDate jan22Y1970Other = DayDate.createInstance(22, Month.JANUARY, 1970);
+        DayDate jan22Y1970Other = DayDateFactory.makeDate(22, Month.JANUARY, 1970);
         DayDate nearestDayOfWeek = jan22Y1970Other.getNearestDayOfWeek(DayOfWeek.MONDAY.toInt());
         assertEquals(19, nearestDayOfWeek.getDayOfMonth());
     }
@@ -318,7 +319,7 @@ public class DayDateTest extends TestCase {
      */
     public void testSerialization() {
 
-        DayDate d1 = DayDate.createInstance(15, Month.APRIL, 2000);
+        DayDate d1 = DayDateFactory.makeDate(15, Month.APRIL, 2000);
         DayDate d2 = null;
 
         try {
@@ -342,9 +343,9 @@ public class DayDateTest extends TestCase {
      * A test for bug report 1096282 (now fixed).
      */
     public void test1096282() {
-        DayDate d = DayDate.createInstance(29, Month.FEBRUARY, 2004);
+        DayDate d = DayDateFactory.makeDate(29, Month.FEBRUARY, 2004);
         d = DayDate.addYears(1, d);
-        DayDate expected = DayDate.createInstance(28, Month.FEBRUARY, 2005);
+        DayDate expected = DayDateFactory.makeDate(28, Month.FEBRUARY, 2005);
         assertTrue(d.isOn(expected));
     }
 
@@ -352,7 +353,7 @@ public class DayDateTest extends TestCase {
      * Miscellaneous tests for the addMonths() method.
      */
     public void testAddMonths() {
-        DayDate d1 = DayDate.createInstance(31, Month.MAY, 2004);
+        DayDate d1 = DayDateFactory.makeDate(31, Month.MAY, 2004);
 
         DayDate d2 = DayDate.addMonths(Month.JANUARY, d1);
         assertEquals(30, d2.getDayOfMonth());
@@ -374,23 +375,9 @@ public class DayDateTest extends TestCase {
         DayDate endOfCurrentMonth = nov9Y2001.getEndOfCurrentMonth(nov9Y2001);
         assertEquals(30, endOfCurrentMonth.getDayOfMonth());
 
-        DayDate dayDate = DayDate.createInstance(18, Month.APRIL, 2021);
+        DayDate dayDate = DayDateFactory.makeDate(18, Month.APRIL, 2021);
         DayDate endOfCurrentMonth1 = dayDate.getEndOfCurrentMonth(dayDate);
         assertEquals(30, endOfCurrentMonth1.getDayOfMonth());
-    }
-
-    public void testWeekInMonthToString() {
-        assertEquals("First", DayDate.weekInMonthToString(WeekInMonth.FIRST));
-        assertEquals("Second", DayDate.weekInMonthToString(WeekInMonth.SECOND));
-        assertEquals("Third", DayDate.weekInMonthToString(WeekInMonth.THIRD));
-        assertEquals("Fourth", DayDate.weekInMonthToString(WeekInMonth.FOURTH));
-        assertEquals("Last", DayDate.weekInMonthToString(WeekInMonth.LAST));
-    }
-
-    public void testRelativeToString() {
-        assertEquals("Preceding", DayDate.relativeToString(RelativeDayOfWeek.PRECEDING));
-        assertEquals("Nearest", DayDate.relativeToString(RelativeDayOfWeek.NEAREST));
-        assertEquals("Following", DayDate.relativeToString(RelativeDayOfWeek.FOLLOWING));
     }
 
     public void testGetDescription() {
@@ -402,13 +389,13 @@ public class DayDateTest extends TestCase {
     public void testToString() {
         assertEquals("9-十一月-2001", nov9Y2001.toString());
 
-        DayDate dayDate = DayDate.createInstance(18, Month.APRIL, 2021);
+        DayDate dayDate = DayDateFactory.makeDate(18, Month.APRIL, 2021);
         assertEquals("18-四月-2021", dayDate.toString());
     }
     
     public void testCreateInstanceDate() {
         Date now = new Date(121, 4, 18);
-        DayDate dayDate = DayDate.createInstance(now);
+        DayDate dayDate = DayDateFactory.makeDate(now);
         assertEquals(2021, dayDate.getYYYY());
         assertEquals(Month.APRIL, dayDate.getMonth());
         assertEquals(18, dayDate.getDayOfMonth());

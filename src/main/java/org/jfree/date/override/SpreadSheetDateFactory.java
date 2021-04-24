@@ -28,7 +28,7 @@ public class SpreadSheetDateFactory extends DayDateFactory {
     protected DayDate _makeDate(Date date) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        return new SpreadsheetDate(calendar.get(Calendar.DATE), Month.make(calendar.get(Calendar.MONTH) + 1), calendar.get(Calendar.YEAR));
+        return new SpreadsheetDate(calendar.get(Calendar.DATE), Month.make(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR));
     }
     
     @Override

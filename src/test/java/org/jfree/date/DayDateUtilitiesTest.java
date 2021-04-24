@@ -46,6 +46,7 @@ package org.jfree.date;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.Month;
 
 /**
@@ -76,8 +77,8 @@ public class DayDateUtilitiesTest extends TestCase {
      * Problem actual day count.
      */
     public void testDayCountActual() {
-        final DayDate d1 = DayDate.createInstance(1, Month.APRIL, 2002);
-        final DayDate d2 = DayDate.createInstance(2, Month.APRIL, 2002);
+        final DayDate d1 = DayDateFactory.makeDate(1, Month.APRIL, 2002);
+        final DayDate d2 = DayDateFactory.makeDate(2, Month.APRIL, 2002);
         final int count = SerialDateUtilities.dayCountActual(d1, d2);
         assertEquals(1, count);
     }
@@ -86,8 +87,8 @@ public class DayDateUtilitiesTest extends TestCase {
      * Problem 30/360 day count.
      */
     public void testDayCount30() {
-        final DayDate d1 = DayDate.createInstance(1, Month.APRIL, 2002);
-        final DayDate d2 = DayDate.createInstance(2, Month.APRIL, 2002);
+        final DayDate d1 = DayDateFactory.makeDate(1, Month.APRIL, 2002);
+        final DayDate d2 = DayDateFactory.makeDate(2, Month.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30(d1, d2);
         assertEquals(1, count);
     }
@@ -96,8 +97,8 @@ public class DayDateUtilitiesTest extends TestCase {
      * Problem 30/360ISDA day count.
      */
     public void testDayCount30ISDA() {
-        final DayDate d1 = DayDate.createInstance(1, Month.APRIL, 2002);
-        final DayDate d2 = DayDate.createInstance(2, Month.APRIL, 2002);
+        final DayDate d1 = DayDateFactory.makeDate(1, Month.APRIL, 2002);
+        final DayDate d2 = DayDateFactory.makeDate(2, Month.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30ISDA(d1, d2);
         assertEquals(1, count);
     }
@@ -106,8 +107,8 @@ public class DayDateUtilitiesTest extends TestCase {
      * Problem 30/360PSA day count.
      */
     public void testDayCount30PSA() {
-        final DayDate d1 = DayDate.createInstance(1, Month.APRIL, 2002);
-        final DayDate d2 = DayDate.createInstance(2, Month.APRIL, 2002);
+        final DayDate d1 = DayDateFactory.makeDate(1, Month.APRIL, 2002);
+        final DayDate d2 = DayDateFactory.makeDate(2, Month.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30PSA(d1, d2);
         assertEquals(1, count);
     }
@@ -116,8 +117,8 @@ public class DayDateUtilitiesTest extends TestCase {
      * Problem 30E/360 day count.
      */
     public void testDayCount3030E() {
-        final DayDate d1 = DayDate.createInstance(1, Month.APRIL, 2002);
-        final DayDate d2 = DayDate.createInstance(2, Month.APRIL, 2002);
+        final DayDate d1 = DayDateFactory.makeDate(1, Month.APRIL, 2002);
+        final DayDate d2 = DayDateFactory.makeDate(2, Month.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30E(d1, d2);
         assertEquals(1, count);
     }

@@ -47,6 +47,7 @@
 package org.jfree.date;
 
 import org.jfree.date.override.DateUtil;
+import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayDateRange;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
@@ -377,7 +378,7 @@ public class SerialDateUtilities {
             y2 = end.getYYYY();
             for (year = y1; year == y2; year++) {
                 if (DateUtil.isLeapYear(year)) {
-                    feb29 = DayDate.createInstance(29, Month.FEBRUARY, year);
+                    feb29 = DayDateFactory.makeDate(29, Month.FEBRUARY, year);
                     if (feb29.isInRange(start, end, DayDateRange.CLOSED_RIGHT)) {
                         count++;
                     }

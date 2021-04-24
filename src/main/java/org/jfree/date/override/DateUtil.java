@@ -1,5 +1,7 @@
 package org.jfree.date.override;
 
+import static org.jfree.date.override.Month.FEBRUARY;
+
 public class DateUtil {
     
     /**
@@ -33,5 +35,22 @@ public class DateUtil {
         final int leap400 = (yyyy - 1600) / 400;
         return leap4 - leap100 + leap400;
         
+    }
+    
+    /**
+     * Returns the number of the last day of the month, taking into account
+     * leap years.
+     *
+     * @param month  the month.
+     * @param yyyy  the year (in the range 1900 to 9999).
+     *
+     * @return the number of the last day of the month.
+     */
+    public static int lastDayOfMonth(final Month month, final int yyyy) {
+        if (FEBRUARY.equals(month) && DateUtil.isLeapYear(yyyy)) {
+            return month.lastDay() + 1;
+        } else {
+            return month.lastDay();
+        }
     }
 }

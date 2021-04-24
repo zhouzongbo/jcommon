@@ -44,6 +44,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
 import org.jfree.date.override.WeekInMonth;
@@ -150,7 +151,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
         DayDate result;
         if (this.count != WeekInMonth.LAST.toInt()) {
             // start at the beginning of the month
-            result = DayDate.createInstance(1, this.month, year);
+            result = DayDateFactory.makeDate(1, this.month, year);
             while (result.getDayOfWeek() != this.dayOfWeek) {
                 result = DayDate.addDays(1, result);
             }
@@ -159,7 +160,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
         }
         else {
             // start at the end of the month and work backwards...
-            result = DayDate.createInstance(1, this.month, year);
+            result = DayDateFactory.makeDate(1, this.month, year);
             result = result.getEndOfCurrentMonth(result);
             while (result.getDayOfWeek() != this.dayOfWeek) {
                 result = DayDate.addDays(-1, result);
