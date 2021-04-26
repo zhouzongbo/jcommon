@@ -65,8 +65,6 @@ import org.jfree.date.override.Month;
 
 import java.io.Serializable;
 
-import static org.jfree.date.override.Month.*;
-
 /**
  *  An abstract class that defines our requirements for manipulating dates,
  *  without tying down a particular implementation.
@@ -105,15 +103,12 @@ public abstract class DayDate implements Comparable, Serializable {
      * date.
      *
      * @param days  the number of days to add (can be negative).
-     * @param base  the base date.
      *
      * @return a new date.
      */
-    public static DayDate addDays(final int days, final DayDate base) {
-
-        final int serialDayNumber = base.ordinal() + days;
-        return DayDateFactory.makeDate(serialDayNumber);
-
+    public DayDate plusDays(final int days) {
+        int ordinalNumber = toOrdinal() + days;
+        return DayDateFactory.makeDate(ordinalNumber);
     }
 
     /**
@@ -124,22 +119,19 @@ public abstract class DayDate implements Comparable, Serializable {
      * may be adjusted slightly:  31 May + 1 month = 30 June.
      *
      * @param months  the number of months to add (can be negative).
-     * @param base  the base date.
      *
      * @return a new date.
      */
-    public static DayDate addMonths(final Month months,
-                                       final DayDate base) {
-
-        final int yy = (12 * base.getYYYY() + base.getMonth().toInt() + months.toInt() - 1)
-                       / 12;
-        final int mm = (12 * base.getYYYY() + base.getMonth().toInt() + months.toInt() - 1)
-                       % 12 + 1;
+    public DayDate plusMonths(final Month months) {
+        // 解析临时变量模式, 更清晰
+        int thisMonthAsOrdinal = 12 * getYYYY() + getMonth().toInt();
+        int resultMonthAsOrdinal = thisMonthAsOrdinal + months.toInt() - 1;
+        int resultYear = resultMonthAsOrdinal / 12;
+        Month resultMonth = Month.make(resultMonthAsOrdinal % 12 + 1);
         final int dd = Math.min(
-            base.getDayOfMonth(), DateUtil.lastDayOfMonth(Month.make(mm), yy)
+            getDayOfMonth(), DateUtil.lastDayOfMonth(resultMonth, resultYear)
         );
-        return DayDateFactory.makeDate(dd, Month.make(mm), yy);
-
+        return DayDateFactory.makeDate(dd, resultMonth, resultYear);
     }
 
     /**
@@ -188,7 +180,7 @@ public abstract class DayDate implements Comparable, Serializable {
             adjust = -7 + Math.max(0, targetWeekday - baseDOW);
         }
 
-        return DayDate.addDays(adjust, base);
+        return base.plusDays(adjust);
 
     }
 
@@ -215,7 +207,7 @@ public abstract class DayDate implements Comparable, Serializable {
             adjust = Math.max(0, targetWeekday - baseDOW);
         }
 
-        return DayDate.addDays(adjust, base);
+        return base.plusDays(adjust);
     }
 
     /**
@@ -240,7 +232,7 @@ public abstract class DayDate implements Comparable, Serializable {
         if (adjust <= -4) {
             adjust = 7 + adjust;
         }
-        return DayDate.addDays(adjust, base);
+        return base.plusDays(adjust);
 
     }
 
@@ -265,7 +257,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return the serial number for the date.
      */
-    public abstract int ordinal();
+    public abstract int toOrdinal();
 
     /**
      * Returns the description that is attached to the date.  It is not 

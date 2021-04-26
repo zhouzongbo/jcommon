@@ -223,7 +223,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
             final JButton b = (JButton) e.getSource();
             final int i = Integer.parseInt(b.getName());
             final DayDate first = getFirstVisibleDate();
-            final DayDate selected = DayDate.addDays(i, first);
+            final DayDate selected = first.plusDays(i);
             setDate(selected);
         }
 
@@ -292,9 +292,9 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
     protected DayDate getFirstVisibleDate() {
 
         DayDate result = DayDateFactory.makeDate(1, this.date.getMonth(), this.date.getYYYY());
-        result = DayDate.addDays(-1, result);
+        result = result.plusDays(-1);
         while (result.getDayOfWeek() != getFirstDayOfWeek()) {
-            result = DayDate.addDays(-1, result);
+            result = result.plusDays(-1);
         }
         return result;
 
@@ -319,7 +319,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
             final JButton button = this.buttons[i];
             button.setText(String.valueOf(current.getDayOfWeek()));
             button.setBackground(getButtonColor(current));
-            current = DayDate.addDays(1, current);
+            current = current.plusDays(1);
         }
 
     }

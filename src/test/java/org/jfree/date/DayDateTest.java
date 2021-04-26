@@ -46,14 +46,6 @@
 
 package org.jfree.date;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.util.Date;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -61,8 +53,14 @@ import org.jfree.date.override.DateUtil;
 import org.jfree.date.override.DayDateFactory;
 import org.jfree.date.override.DayOfWeek;
 import org.jfree.date.override.Month;
-import org.jfree.date.override.RelativeDayOfWeek;
-import org.jfree.date.override.WeekInMonth;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.util.Date;
 
 /**
  * Some JUnit tests for the {@link DayDate} class.
@@ -101,7 +99,7 @@ public class DayDateTest extends TestCase {
      * 9 Nov 2001 plus two months should be 9 Jan 2002.
      */
     public void testAddMonthsTo9Nov2001() {
-        final DayDate jan9Y2002 = DayDate.addMonths(Month.FEBRUARY, this.nov9Y2001);
+        final DayDate jan9Y2002 = this.nov9Y2001.plusMonths(Month.FEBRUARY);
         final DayDate answer = DayDateFactory.makeDate(9, Month.JANUARY, 2002);
         assertEquals(answer, jan9Y2002);
     }
@@ -111,7 +109,7 @@ public class DayDateTest extends TestCase {
      */
     public void testAddMonthsTo5Oct2003() {
         final DayDate d1 = DayDateFactory.makeDate(5, Month.OCTOBER, 2003);
-        final DayDate d2 = DayDate.addMonths(Month.FEBRUARY, d1);
+        final DayDate d2 = d1.plusMonths(Month.FEBRUARY);
         assertEquals(d2, DayDateFactory.makeDate(5, Month.DECEMBER, 2003));
     }
 
@@ -355,20 +353,21 @@ public class DayDateTest extends TestCase {
     public void testAddMonths() {
         DayDate d1 = DayDateFactory.makeDate(31, Month.MAY, 2004);
 
-        DayDate d2 = DayDate.addMonths(Month.JANUARY, d1);
+        DayDate d2 = d1.plusMonths(Month.JANUARY);
         assertEquals(30, d2.getDayOfMonth());
         assertEquals(6, d2.getMonth().toInt());
         assertEquals(2004, d2.getYYYY());
 
-        DayDate d3 = DayDate.addMonths(Month.FEBRUARY, d1);
+        DayDate d3 = d1.plusMonths(Month.FEBRUARY);
         assertEquals(31, d3.getDayOfMonth());
         assertEquals(7, d3.getMonth().toInt());
         assertEquals(2004, d3.getYYYY());
-
-        DayDate d4 = DayDate.addMonths(Month.JANUARY, DayDate.addMonths(Month.JANUARY, d1));
-        assertEquals(30, d4.getDayOfMonth());
-        assertEquals(7, d4.getMonth().toInt());
-        assertEquals(2004, d4.getYYYY());
+    
+        DayDate d4 = d1.plusMonths(Month.JANUARY);
+        DayDate d5 = d4.plusMonths(Month.JANUARY);
+        assertEquals(30, d5.getDayOfMonth());
+        assertEquals(7, d5.getMonth().toInt());
+        assertEquals(2004, d5.getYYYY());
     }
 
     public void testGetEndOfCurrentMonth() {
